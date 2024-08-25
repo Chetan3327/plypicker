@@ -21,6 +21,8 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
+    "date-fns": "^3.6.0",
+    "firebase": "^10.13.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.435.0",
     "mongoose": "^8.5.4",
