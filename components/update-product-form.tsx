@@ -9,6 +9,8 @@ import { z } from 'zod';
 import { Textarea } from './ui/textarea';
 import Image from 'next/image';
 import { useState } from 'react';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import storage from "@/config/firebase";
 
 const ProductSchema = z.object({
   productName: z.string().min(1, 'Product name is required'),
@@ -26,6 +28,8 @@ interface UpdateProductFormProps {
 }
 
 const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
+  const [productImage, setProductImage] = useState(product.image)
+
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -38,15 +42,43 @@ const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
   });
   const isLoading = form.formState.isSubmitting
 
-  const onSubmit = async (data: ProductFormValues) => {
+  const onSubmit = async (values: ProductFormValues) => {
     // try {
-    //   await ProductModel.updateOne({ id: params.productId }, data);
+    //   await ProductModel.updateOne({ id: params.productId }, values);
     //   alert('Product updated successfully!');
     // } catch (error) {
     //   console.error('Failed to update product:', error);
     //   alert('Failed to update product.');
     // }
+    const data = {
+      productName: values.productName,
+      productDescription: values.productDescription,
+      price: values.price,
+      image: productImage
+    }
     console.log(data)
+  };
+
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const storageRef = ref(storage, `products/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      (error) => {
+        console.error("Upload failed", error);
+      },
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        console.log(url)
+        setProductImage(url);
+      }
+    );
   };
 
   return (
@@ -54,18 +86,8 @@ const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
       <h2 className="text-2xl font-bold mb-4">Update Product</h2>
       <Form {...form}>
         <form className="grid grid-cols-1 gap-6 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
-          {/* <FormField
-            control={form.control}
-            name='image'
-            render={(({field}) => (
-              <FormItem>
-                <FormControl>
-                  <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product image' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            ))}
-          /> */}
+          <Image src={productImage} height={500} width={500} alt={product.productName} />
+          <Input type='file' onChange={(e) => handleImageUpload(e)} />
 
           <FormField
             control={form.control}
