@@ -1,0 +1,32 @@
+@host = http://localhost:3000
+
+### get all users
+GET {{host}}/api/auth/register/
+
+### create user
+POST {{host}}/api/auth/register/
+Content-Type: application/json
+
+{
+  "name": "new1",
+  "email": "test1@gmail.com",
+  "password": "new1",
+  "role": "team-member"
+}
+
+### login user
+POST {{host}}/api/auth/login/
+Content-Type: application/json
+
+{
+  "email": "new1@gmail.com",
+  "password": "new1"
+}
+
+### get curr user
+POST {{host}}/api/me
+Content-Type: application/json
+
+{
+  "id": "66cafd5aa0cb5be40db3338b"
+}
