@@ -1,11 +1,9 @@
-import { NextResponse } from 'next/server';
-import Review from '@/models/review';
-import Product from '@/models/product';
 import connect from '@/lib/connect';
 import { currentUser } from '@/lib/current-user';
+import Review from '@/models/review';
+import { NextResponse } from 'next/server';
 
 connect();
-
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
