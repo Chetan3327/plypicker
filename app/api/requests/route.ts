@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     }
 
     const updatedProduct = await Product.findOneAndUpdate(
-      {id: review.productId},
+      { id: review.productId },
       { $set: review.changes },
       { new: true }
     );

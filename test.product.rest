@@ -32,3 +32,8 @@ Content-Type: application/json
 {
   "id": "66cafd5aa0cb5be40db3338b"
 }
+
+
+### get curr user
+DELETE {{host}}/api/test
+Content-Type: application/json

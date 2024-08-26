@@ -15,6 +15,7 @@ const page = async () => {
   }
 
   const requests:Review[] = await ReviewModel.find({status: "pending"}).sort({createdAt: -1}).lean()
+  console.log(requests)
   return (
     <div>
       <h1 className="text-3xl md:text-4xl font-bold py-7 px-3">Pending Requests</h1>

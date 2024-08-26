@@ -24,7 +24,7 @@ const RequestForm = ({ old, updated }: RequestFormProps) => {
     });
 
     if (response.ok) {
-      router.push("/dashboard");
+      router.push("/pending-requests");
       router.refresh()
     } else {
       toast({
@@ -33,6 +33,7 @@ const RequestForm = ({ old, updated }: RequestFormProps) => {
       });
     }
   }
+  
   const approveChanges = async () => {
     const response = await fetch("/api/requests", {
       method: "POST",
@@ -45,7 +46,7 @@ const RequestForm = ({ old, updated }: RequestFormProps) => {
     });
 
     if (response.ok) {
-      router.push("/dashboard");
+      router.push("/pending-requests");
       router.refresh()
     } else {
       toast({
