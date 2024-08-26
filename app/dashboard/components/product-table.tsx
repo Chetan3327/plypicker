@@ -27,7 +27,6 @@ const ProductTable = ({products}: {products: Product[]}) => {
           <TableHead>PRICE</TableHead>
           <TableHead>IMAGE</TableHead>
           <TableHead>DESCRIPTION</TableHead>
-          <TableHead>DEPARTMENT</TableHead>
           <TableHead>CREATED AT</TableHead>
           <TableHead>UPDATED AT</TableHead>
           <TableHead></TableHead>
@@ -41,7 +40,6 @@ const ProductTable = ({products}: {products: Product[]}) => {
             <TableCell>{product.price}</TableCell>
             <TableCell><Image src={product.image} width={100} height={100} alt={product.productName} /></TableCell>
             <TableCell>{product.productDescription}</TableCell>
-            <TableCell>{product.department}</TableCell>
             <TableCell>{format(new Date(product.createdAt), date_format)}</TableCell>
             <TableCell>{format(new Date(product.updatedAt), date_format)}</TableCell>
             <TableCell><Link href={`/product/${product.id}`} className={buttonVariants({variant: 'outline'})}>update</Link></TableCell>

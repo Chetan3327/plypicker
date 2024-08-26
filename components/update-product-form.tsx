@@ -1,6 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Product, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -52,7 +52,6 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
       price: values.price,
       image: productImage
     }
-    console.log(data)
 
     if(user.role === 'admin'){
       const response = await fetch("/api/product", {
@@ -85,7 +84,6 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
         authorId: user._id,
         status: 'pending'
       };
-      console.log(data)
       const response = await fetch("/api/review", {
         method: "POST",
         headers: {
@@ -94,8 +92,6 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
         body: JSON.stringify(data)
       });
 
-      console.log('kjdfhkjasdfjlsdjfkljdlsf')
-      console.log(response)
       if (response.ok) {
         router.push('/profile/my-submissions');
         router.refresh()
@@ -126,7 +122,6 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
       },
       async () => {
         const url = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log(url)
         setProductImage(url);
       }
     );
@@ -134,52 +129,57 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Update Product</h2>
+      <h1 className="text-3xl md:text-4xl font-bold py-7 px-3">Update Product</h1>
       <Form {...form}>
-        <form className="grid grid-cols-1 gap-6 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
-          <Image src={productImage} height={500} width={500} alt={product.productName} />
-          <Input type='file' onChange={(e) => handleImageUpload(e)} />
+        <form className="grid grid-cols-1 gap-6 sm:grid-cols-2 pt-7 px-5" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='flex justify-center items-center flex-col gap-5 w-[60%] pl-10'>
+            <Image src={productImage} height={400} width={400} alt={product.productName} />
+            <Input type='file' onChange={(e) => handleImageUpload(e)} />
+          </div>
 
-          <FormField
-            control={form.control}
-            name='productName'
-            render={(({field}) => (
-              <FormItem>
-                <FormControl>
-                  <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product name' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            ))}
-          />
+          <div className='space-y-5'>
+            <FormField
+              control={form.control}
+              name='productName'
+              render={(({field}) => (
+                <FormItem>
+                  <FormLabel>Product Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              ))}
+            />
+            <FormField
+              control={form.control}
+              name='productDescription'
+              render={(({field}) => (
+                <FormItem>
+                  <FormLabel>Product Description</FormLabel>
+                  <FormControl>
+                    <Textarea disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='productDescription' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              ))}
+            />
+            <FormField
+              control={form.control}
+              name='price'
+              render={(({field}) => (
+                <FormItem>
+                  <FormLabel>Product Price</FormLabel>
+                  <FormControl>
+                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product price' type='number' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              ))}
+            />
 
-          <FormField
-            control={form.control}
-            name='productDescription'
-            render={(({field}) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='productDescription' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            ))}
-          />
-
-          <FormField
-            control={form.control}
-            name='price'
-            render={(({field}) => (
-              <FormItem>
-                <FormControl>
-                  <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product price' type='number' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            ))}
-          />
-
-          <Button type="submit" className="mt-6">{user.role === 'admin' ? "update product as admin" : "submit changes for approval"}</Button>
+            <Button type="submit" className="mt-6 w-full">{user.role === 'admin' ? "update product as admin" : "submit changes for approval"}</Button>
+          </div>
         </form>
       </Form>
     </div>

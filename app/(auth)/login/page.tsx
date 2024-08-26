@@ -35,7 +35,6 @@ const page = () => {
         password: values.password,
         redirect: false
       })
-      console.log(response)
       if(response?.error){
         toast({
           title: "Error",
@@ -56,7 +55,7 @@ const page = () => {
   };
 
   return (
-    <div className='space-y-4'>
+    <div className='space-y-4 md:w-[40%]'>
       <h3 className='font-bold text-3xl text-center'>Welcome Back</h3>
       <Form {...form}>
         <form className='space-y-5' onSubmit={form.handleSubmit(onSubmit)}>

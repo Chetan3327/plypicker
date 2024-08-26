@@ -14,7 +14,7 @@ const page = async () => {
   const submissions:Review[] = await ReviewModel.find({authorId: user._id}).sort({createdAt: -1}).lean()
   return (
     <div>
-      <h3>MY SUBMISSIONS</h3>
+      <h1 className="text-3xl md:text-4xl font-bold py-7 px-3">My Submissions</h1>
       <SubmissionTable submissions={submissions} />
     </div>
   )

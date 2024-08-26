@@ -10,7 +10,6 @@ export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
     const { productId, changes } = reqBody;
-    console.log(productId, changes)
 
     const user = await currentUser();
     if (!user || user.role !== 'team-member') {
@@ -25,7 +24,6 @@ export async function POST(req: Request) {
     });
 
     const savedReview = await newReview.save();
-    console.log(savedReview)
     return NextResponse.json(savedReview, { status: 201 });
   } catch (error) {
     console.error(error);

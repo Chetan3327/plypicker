@@ -68,7 +68,7 @@ const page = () => {
   };
 
   return (
-    <div className='space-y-4 w-[40%]'>
+    <div className='space-y-4 md:w-[40%]'>
       <h3 className='font-bold text-3xl text-center'>Create An Account</h3>
       <Form {...form}>
         <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
