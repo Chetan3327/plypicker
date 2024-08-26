@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Product } from '@/types';
+import { Product, User } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -11,6 +11,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import storage from "@/config/firebase";
+import { redirect, useRouter } from 'next/navigation';
+import { toast } from './ui/use-toast';
 
 const ProductSchema = z.object({
   productName: z.string().min(1, 'Product name is required'),
@@ -23,11 +25,12 @@ const ProductSchema = z.object({
 type ProductFormValues = z.infer<typeof ProductSchema>;
 
 interface UpdateProductFormProps {
-  userRole: "admin" | "team-member",
+  user: User
   product: Product
 }
 
-const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
+const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
+  const router = useRouter()
   const [productImage, setProductImage] = useState(product.image)
 
   const form = useForm<ProductFormValues>({
@@ -43,13 +46,6 @@ const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: ProductFormValues) => {
-    // try {
-    //   await ProductModel.updateOne({ id: params.productId }, values);
-    //   alert('Product updated successfully!');
-    // } catch (error) {
-    //   console.error('Failed to update product:', error);
-    //   alert('Failed to update product.');
-    // }
     const data = {
       productName: values.productName,
       productDescription: values.productDescription,
@@ -57,6 +53,61 @@ const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
       image: productImage
     }
     console.log(data)
+
+    if(user.role === 'admin'){
+      const response = await fetch("/api/product", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+  
+      if (response.ok) {
+        return redirect('/dashboard')
+      } else {
+        toast({
+          title: "Error",
+          description: "Oops! Something went wrong!",
+        });
+      }
+    }
+
+    if(user.role === 'team-member'){
+      const data = {
+        productId: product.id,
+        changes: {
+          productName: values.productName,
+          productDescription: values.productDescription,
+          price: values.price,
+          image: productImage
+        },
+        authorId: user._id,
+        status: 'pending'
+      };
+      console.log(data)
+      const response = await fetch("/api/review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log('kjdfhkjasdfjlsdjfkljdlsf')
+      console.log(response)
+      if (response.ok) {
+        router.push('/profile/my-submissions');
+        router.refresh()
+      } else {
+        toast({
+          title: "Error",
+          description: "Oops! Something went wrong!",
+        });
+      }
+
+    }
+    
   };
 
 
@@ -128,7 +179,7 @@ const UpdateProductForm = ({product, userRole}: UpdateProductFormProps) => {
             ))}
           />
 
-          <Button type="submit" className="mt-6">{userRole === 'admin' ? "update product as admin" : "submit changes for approval"}</Button>
+          <Button type="submit" className="mt-6">{user.role === 'admin' ? "update product as admin" : "submit changes for approval"}</Button>
         </form>
       </Form>
     </div>

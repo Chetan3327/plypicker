@@ -3,19 +3,22 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import ReviewModel from '@/models/review'
 import { Review, User } from '@/types'
-import SubmissionTable from '@/components/user-submission-table'
+import RequestTable from '@/components/requestTable'
 
 const page = async () => {
   const user: User = await currentUser()
   if(!user){
     return redirect('/login')
   }
+  if(user.role !== 'admin'){
+    return redirect('/dashboard')
+  }
 
-  const submissions:Review[] = await ReviewModel.find({authorId: user._id}).sort({createdAt: -1}).lean()
+  const requests:Review[] = await ReviewModel.find().sort({createdAt: -1}).lean()
   return (
     <div>
       <h3>MY SUBMISSIONS</h3>
-      <SubmissionTable submissions={submissions} />
+      <RequestTable requests={requests} />
     </div>
   )
 }

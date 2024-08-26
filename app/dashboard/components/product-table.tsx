@@ -1,7 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { format } from 'date-fns'
-import { MoreHorizontal } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -45,7 +44,7 @@ const ProductTable = ({products}: {products: Product[]}) => {
             <TableCell>{product.department}</TableCell>
             <TableCell>{format(new Date(product.createdAt), date_format)}</TableCell>
             <TableCell>{format(new Date(product.updatedAt), date_format)}</TableCell>
-            <TableCell><Link href={`/product/${product.id}`} className={buttonVariants({variant: 'outline'})}>visit</Link></TableCell>
+            <TableCell><Link href={`/product/${product.id}`} className={buttonVariants({variant: 'outline'})}>update</Link></TableCell>
           </TableRow>
         ))}
       </TableBody>

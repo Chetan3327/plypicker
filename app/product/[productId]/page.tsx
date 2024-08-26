@@ -13,7 +13,7 @@ const page = async ({ params }: { params: { productId: string } }) => {
 
   return (
     <div>
-      <UpdateProductForm product={product} userRole={user.role} />
+      <UpdateProductForm product={product} user={user} />
     </div>
   );
 }

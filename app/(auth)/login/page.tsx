@@ -44,7 +44,7 @@ const page = () => {
         return;
       }
       if(response?.ok){
-        router.push("/");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.log(error)
