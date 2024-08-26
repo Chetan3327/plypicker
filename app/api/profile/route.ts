@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import Review from '@/models/review';
 import connect from '@/lib/connect';
 import { currentUser } from '@/lib/current-user';
+import Review from '@/models/review';
+import { NextResponse } from 'next/server';
 
 connect()
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   const user = await currentUser()  
   if (!user) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return NextResponse.json({'message': 'Restricted Access'})
   }
 
   const userId = user._id;
@@ -19,6 +19,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     acc[item._id] = item.count;
     return acc;
   }, { pending: 0, approved: 0, rejected: 0 });
-
-  res.status(200).json(result);
+  return NextResponse.json(result, { status: 200 });
 }
