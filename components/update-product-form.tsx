@@ -55,7 +55,6 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
         price: Number(values.price),
         image: productImage
       }
-      console.log(data)
       const response = await fetch("/api/product/", {
         method: "PUT",
         headers: {
@@ -149,7 +148,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product name' {...field} />
+                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-orange-400' placeholder='product name' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +161,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
                 <FormItem>
                   <FormLabel>Product Description</FormLabel>
                   <FormControl>
-                    <Textarea disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='productDescription' {...field} />
+                    <Textarea disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-orange-400' placeholder='productDescription' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -175,7 +174,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
                 <FormItem>
                   <FormLabel>Product Price</FormLabel>
                   <FormControl>
-                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-emerald-400' placeholder='product price' type='number' {...field} />
+                    <Input disabled={isLoading} className='focus-visible:ring-0 focus-visible:ring-offset-0 focus:border-orange-400' placeholder='product price' type='number' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

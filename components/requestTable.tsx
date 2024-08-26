@@ -21,7 +21,7 @@ const RequestTable = ({requests}: {requests: Review[]}) => {
             <TableCell>{submission.productId}</TableCell>
             <TableCell>{submission.changes.productName}</TableCell>
             <TableCell>{format(new Date(submission.createdAt), date_format)}</TableCell>
-            <TableCell><Link href={`pending-requests/${submission.productId}`} className={buttonVariants({variant: 'outline'})}>view changes</Link></TableCell>
+            <TableCell><Link href={`pending-requests/${submission._id}`} className={buttonVariants({variant: 'outline'})}>view changes</Link></TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -7,13 +7,14 @@ import { redirect } from 'next/navigation'
 
 const page = async ({ params }: { params: { requestId: string } }) => {
   const user = currentUser()
-  const old:Product|null = await ProductModel.findOne({id: params.requestId})
-  if(!old){
+
+  const updated:Review|null = await ReviewModel.findOne({_id: params.requestId})
+  if(!updated){
     return redirect('/dashboard')
   }
   
-  const updated:Review|null = await ReviewModel.findOne({productId: params.requestId})
-  if(!updated){
+  const old:Product|null = await ProductModel.findOne({id: updated.productId})
+  if(!old){
     return redirect('/dashboard')
   }
   

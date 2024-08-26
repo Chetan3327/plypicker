@@ -10,6 +10,8 @@ import { ModeToggle } from '@/components/mode-toggle'
 const page = async () => {
   const user = await currentUser()
   const products = await Product.find()
+
+  if(!user) return (<div>Loading...</div>)
   return (
     <div>
       <div className='flex justify-between items-center mx-5'>

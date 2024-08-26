@@ -4,9 +4,14 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { currentUser } from '@/lib/current-user'
 import Link from 'next/link';
 import React from 'react'
+import axios from 'axios'
 
 const page = async () => {
   const user = await currentUser();
+  const {data} = await axios.get('/api/profile')
+  const pending = data.pending;
+  const approved = data.approved;
+  const rejected = data.rejected;
   
   return (
     <div>
@@ -22,15 +27,15 @@ const page = async () => {
       <div className='container grid grid-cols-1 md:grid-cols-3 gap-4 pt-[5rem]'>
         <Card className='pt-5'>
           <CardContent>Pending Submissions</CardContent>
-          <CardFooter>5</CardFooter>
+          <CardFooter>{pending}</CardFooter>
         </Card>
         <Card className='pt-5'>
           <CardContent>Approved Submissions</CardContent>
-          <CardFooter>3</CardFooter>
+          <CardFooter>{approved}</CardFooter>
         </Card>
         <Card className='pt-5'>
           <CardContent>Rejected Submissions</CardContent>
-          <CardFooter>0</CardFooter>
+          <CardFooter>{rejected}</CardFooter>
         </Card>
       </div>
     </div>

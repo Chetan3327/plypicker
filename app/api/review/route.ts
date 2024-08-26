@@ -24,7 +24,6 @@ export async function POST(req: Request) {
     const savedReview = await newReview.save();
     return NextResponse.json(savedReview, { status: 201 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ error: 'Failed to submit review' }, { status: 500 });
   }
 }

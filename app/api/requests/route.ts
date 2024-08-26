@@ -24,7 +24,6 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(updatedReview, { status: 200 });
   } catch (error) {
-    console.error('Error rejecting review:', error);
     return NextResponse.json({ error: 'Failed to reject review' }, { status: 500 });
   }
 }
@@ -58,7 +57,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ product: updatedProduct, review: updatedReview }, { status: 200 });
   } catch (error) {
-    console.error('Error accepting review changes:', error);
     return NextResponse.json({ error: 'Failed to accept review changes' }, { status: 500 });
   }
 }

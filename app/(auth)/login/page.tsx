@@ -46,7 +46,6 @@ const page = () => {
         router.push("/dashboard");
       }
     } catch (error) {
-      console.log(error)
       toast({
         title: "Error",
         description: "Oops! Something went wrong!",

@@ -3,10 +3,8 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
 import { currentUser } from '@/lib/current-user'
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 const page = async () => {
   const user = await currentUser()
@@ -20,7 +18,7 @@ const page = async () => {
           <Logo size={200} />
         </div>
 
-        <div className='space-x-3'>
+        <div className='flex space-x-3 items-center'>
           <ModeToggle />
           <Link href={'/login'}><Button className='ml-auto' variant={'ghost'}>Log in</Button></Link>
           <Link href={'/register'}><Button>Get Started <ArrowRight className='w-4 h-4 ml-2' /></Button></Link>
