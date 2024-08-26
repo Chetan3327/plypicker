@@ -17,7 +17,7 @@ const page = async () => {
   const requests:Review[] = await ReviewModel.find().sort({createdAt: -1}).lean()
   return (
     <div>
-      <h1 className="text-3xl md:text-4xl font-bold py-7 px-3 text-muted-foreground">Pending Requests</h1>
+      <h1 className="text-3xl md:text-4xl font-bold py-7 px-3">Pending Requests</h1>
       <RequestTable requests={requests} />
     </div>
   )

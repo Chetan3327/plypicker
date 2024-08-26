@@ -7,7 +7,7 @@ import Image from "next/image"
 export default async function AuthLayout({children}: {children: React.ReactNode}){
     const session = await getServerSession(authOptions)
     if(session){
-        redirect('/')
+        redirect('/dashboard')
     }
     return (
         <div className="flex justify-center pt-[10rem]">

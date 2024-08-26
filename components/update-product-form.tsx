@@ -37,7 +37,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       productName: product.productName,
-      price: product.price,
+      price: Number(product.price),
       image: product.image,
       productDescription: product.productDescription,
       department: product.department,
@@ -46,15 +46,17 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: ProductFormValues) => {
-    const data = {
-      productName: values.productName,
-      productDescription: values.productDescription,
-      price: values.price,
-      image: productImage
-    }
-
+    
     if(user.role === 'admin'){
-      const response = await fetch("/api/product", {
+      const data = {
+        id: product.id,
+        productName: values.productName,
+        productDescription: values.productDescription,
+        price: Number(values.price),
+        image: productImage
+      }
+      console.log(data)
+      const response = await fetch("/api/product/", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +65,9 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
       });
   
       if (response.ok) {
-        return redirect('/dashboard')
+        router.push('/dashboard');
+        router.refresh()
+        // return redirect('/dashboard')
       } else {
         toast({
           title: "Error",
@@ -78,7 +82,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
         changes: {
           productName: values.productName,
           productDescription: values.productDescription,
-          price: values.price,
+          price: Number(values.price),
           image: productImage
         },
         authorId: user._id,
@@ -131,7 +135,7 @@ const UpdateProductForm = ({product, user}: UpdateProductFormProps) => {
     <div>
       <h1 className="text-3xl md:text-4xl font-bold py-7 px-3">Update Product</h1>
       <Form {...form}>
-        <form className="grid grid-cols-1 gap-6 sm:grid-cols-2 pt-7 px-5" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="grid grid-cols-1 gap-6 sm:grid-cols-2 pt-12 px-7" onSubmit={form.handleSubmit(onSubmit)}>
           <div className='flex justify-center items-center flex-col gap-5 w-[60%] pl-10'>
             <Image src={productImage} height={400} width={400} alt={product.productName} />
             <Input type='file' onChange={(e) => handleImageUpload(e)} />

@@ -31,15 +31,17 @@ export async function PUT(req: Request) {
   try {
     const reqBody = await req.json();
     const { id, ...updateData } = reqBody;
+    console.log(id, updateData)
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, updateData, { new: true });
-
+    const updatedProduct = await Product.findOneAndUpdate({id}, {$set: updateData}, { new: true });
+    console.log(updatedProduct)
     if (!updatedProduct) {
       return NextResponse.json({ message: 'Product not found' }, { status: 404 });
     }
 
     return NextResponse.json(updatedProduct, { status: 200 });
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ message: 'Error updating product', error }, { status: 500 });
   }
 }
